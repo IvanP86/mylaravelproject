@@ -17,6 +17,7 @@ class PostController extends Controller
         $postWhere = Post::where('is_published', 0)->first();
         // $postWhere = Post::where('is_published', 0)->get();
         dump($postWhere->title);
+        return view('posts', compact('posts'));
     }
 
     public function create() {
@@ -52,11 +53,45 @@ class PostController extends Controller
     	dd('created');
     }
 
-    public function update() {
-    	$post = Post::find(2);
-    	$post->update([
-    			'title'=>'updated title'
+    public function firstOrCreate() {
+    	$post = Post::firstOrCreate([
+	    		'title' => 'firstOrCreate'
+    		],
+    		[
+    			'title' => 'firstOrCreate',
+    			'content' => 'some firstOrCreate content',
+    			'image' => 'image',
+    			'likes' => 123,
+    			'is_published' => true
     		]);
+    	dd($post->content);
+    }
+
+    public function update() {
+    	$post = Post::find(7);
+    	if($post){
+	    	$post->update([
+	    			'title'=>'updated title'
+	    		]);
+	    	dd('post izmenen');
+    	}else{
+    		dd('posta net');
+    	}
+    }
+
+    public function updateOrCreate() {
+    	
+    	$post = Post::updateOrCreate([
+    			'title' => 'updateOrCreate'
+    		],[
+    			'title' => 'updateOrCreate',
+    			'content' => 'some updateOrCreate content',
+    			'image' => 'image',
+    			'likes' => 123,
+    			'is_published' => true
+    		]);
+    	dd($post->content);
+
     }
 
     public function delete() {
