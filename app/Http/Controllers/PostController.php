@@ -4,21 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        // $posts = Post::all();
+        $category = Category::find(1);
+        $post = Post::find(3);
+        dd($post->category);
+        //$posts = Post::where('category_id', $category->id)->get();
+        // dd($category->posts);
         // dump($post->title);
         // dd($posts);
-        foreach ($posts as $post) {
-        	dump($post->title);
-        }
-        $postWhere = Post::where('is_published', 0)->first();
+        // foreach ($posts as $post) {
+        // 	dump($post->title);
+        // }
+        // $postWhere = Post::where('is_published', 0)->first();
         // $postWhere = Post::where('is_published', 0)->get();
-        dump($postWhere->title);
-        return view('post.index', compact('posts'));
+        // dump($postWhere->title);
+        //return view('post.index', compact('posts'));
     }
 
     public function create()
