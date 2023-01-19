@@ -7,7 +7,8 @@ use App\Post;
 
 class PostController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $posts = Post::all();
         // dump($post->title);
         // dd($posts);
@@ -17,43 +18,67 @@ class PostController extends Controller
         $postWhere = Post::where('is_published', 0)->first();
         // $postWhere = Post::where('is_published', 0)->get();
         dump($postWhere->title);
-        return view('posts', compact('posts'));
+        return view('post.index', compact('posts'));
     }
 
-    public function create() {
+    public function create()
+    {
 
-    	$postsArr = [
+    	// $postsArr = [
 
-    		[
-    			'title' => 'newAutoCreatedPost',
-    			'content' => 'content6',
-    			'image' => 'image',
-    			'likes' => 123,
-    			'is_published' => true
-    		],
-    		[
-    			'title' => 'another new ttile from sublim',
-    			'content' => 'another content7',
-    			'image' => 'anothe image',
-    			'likes' => 124,
-    			'is_published' => true
-    		],
-    		[
-    			'title' => 'another2 new ttile from sublim',
-    			'content' => 'another2 content7',
-    			'image' => 'another2 image',
-    			'likes' => 125,
-    			'is_published' => false
-    		]
-    	];
-    	foreach ($postsArr as $post) {
-    		Post::create($post);
-    	}
-    	// Post::create();
-    	dd('created');
+    	// 	[
+    	// 		'title' => 'newAutoCreatedPost',
+    	// 		'content' => 'content6',
+    	// 		'image' => 'image',
+    	// 		'likes' => 123,
+    	// 		'is_published' => true
+    	// 	],
+    	// 	[
+    	// 		'title' => 'another new ttile from sublim',
+    	// 		'content' => 'another content7',
+    	// 		'image' => 'anothe image',
+    	// 		'likes' => 124,
+    	// 		'is_published' => true
+    	// 	],
+    	// 	[
+    	// 		'title' => 'another2 new ttile from sublim',
+    	// 		'content' => 'another2 content7',
+    	// 		'image' => 'another2 image',
+    	// 		'likes' => 125,
+    	// 		'is_published' => false
+    	// 	]
+    	// ];
+    	// foreach ($postsArr as $post) {
+    	// 	Post::create($post);
+    	// }
+    	// // Post::create();
+    	// dd('created');
+    	return view('post.create');
     }
 
-    public function firstOrCreate() {
+    public function store()
+    {
+    	$data = request()->validate([
+    		'title' => 'string',
+    		'content' => 'string',
+    		'image' =>'string'
+    		]);
+    	Post::create($data);
+    	return redirect()->route('post.index');
+    }
+
+    public function show(Post $post)
+    {
+    	return view('post.show', compact('post'));
+    }
+
+    public function edit(Post $post)
+    {
+        return view('post.edit', compact('post'));
+    }
+
+    public function firstOrCreate()
+    {
     	$post = Post::firstOrCreate([
 	    		'title' => 'firstOrCreate'
     		],
@@ -67,8 +92,9 @@ class PostController extends Controller
     	dd($post->content);
     }
 
-    public function update() {
-    	$post = Post::find(7);
+    public function update(Post $post)
+    {
+/*    	$post = Post::find(7);
     	if($post){
 	    	$post->update([
 	    			'title'=>'updated title'
@@ -76,7 +102,15 @@ class PostController extends Controller
 	    	dd('post izmenen');
     	}else{
     		dd('posta net');
-    	}
+    	}*/
+        $data = request()->validate([
+            'title' => 'string',
+            'content' => 'string',
+            'image' =>'string'
+            ]);
+        $post->update($data);
+        // dump($data);
+        return redirect()->route('post.show', $post->id);
     }
 
     public function updateOrCreate() {
@@ -94,12 +128,27 @@ class PostController extends Controller
 
     }
 
-    public function delete() {
-    	$post = Post::find(1);
-    	$post->delete();
-    	dd('post deleted');
+    public function delete(Post $post)
+    {
+        $post = Post::find(1);
+        $post->delete();
+        dd('post deleted');
+
+        // $post = Post::withTrashed(1);
+        // $post->restore();
+        $post->delete();
+        return redirect()->route('post.index');
+    }
+
+    public function destroy(Post $post)
+    {
+    	// $post = Post::find(1);
+    	// $post->delete();
+    	// dd('post deleted');
 
     	// $post = Post::withTrashed(1);
     	// $post->restore();
+        $post->delete();
+        return redirect()->route('post.index');
     }
 }
