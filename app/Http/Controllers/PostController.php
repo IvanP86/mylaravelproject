@@ -11,11 +11,11 @@ class PostController extends Controller
 {
     public function index()
     {
-        // $posts = Post::all();
-        $category = Category::find(1);
-        $post = Post::find(5);
-        $tag = Tag::find(1);
-        dd($tag->posts);
+        $posts = Post::all();
+        // $category = Category::find(1);
+        // $post = Post::find(5);
+        // $tag = Tag::find(1);
+        // dd($tag->posts);
         //$posts = Post::where('category_id', $category->id)->get();
         // dd($category->posts);
         // dump($post->title);
@@ -26,12 +26,13 @@ class PostController extends Controller
         // $postWhere = Post::where('is_published', 0)->first();
         // $postWhere = Post::where('is_published', 0)->get();
         // dump($postWhere->title);
-        //return view('post.index', compact('posts'));
+        return view('post.index', compact('posts'));
     }
 
     public function create()
     {
 
+        $categories = Category::all();
     	// $postsArr = [
 
     	// 	[
@@ -61,7 +62,7 @@ class PostController extends Controller
     	// }
     	// // Post::create();
     	// dd('created');
-    	return view('post.create');
+    	return view('post.create', compact('categories'));
     }
 
     public function store()
@@ -69,8 +70,10 @@ class PostController extends Controller
     	$data = request()->validate([
     		'title' => 'string',
     		'content' => 'string',
-    		'image' =>'string'
+    		'image' => 'string',
+            'category_id' => ''
     		]);
+        //dd($data);
     	Post::create($data);
     	return redirect()->route('post.index');
     }
@@ -82,7 +85,8 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('post.edit', compact('post'));
+        $categories = Category::all();
+        return view('post.edit', compact('post', 'categories'));
     }
 
     public function firstOrCreate()
@@ -114,7 +118,8 @@ class PostController extends Controller
         $data = request()->validate([
             'title' => 'string',
             'content' => 'string',
-            'image' =>'string'
+            'image' =>'string',
+            'category_id' => ''
             ]);
         $post->update($data);
         // dump($data);
