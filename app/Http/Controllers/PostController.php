@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -12,8 +13,9 @@ class PostController extends Controller
     {
         // $posts = Post::all();
         $category = Category::find(1);
-        $post = Post::find(3);
-        dd($post->category);
+        $post = Post::find(5);
+        $tag = Tag::find(1);
+        dd($tag->posts);
         //$posts = Post::where('category_id', $category->id)->get();
         // dd($category->posts);
         // dump($post->title);
