@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
 use App\Tag;
+use App\PostTag;
 
 class PostController extends Controller
 {
@@ -33,6 +34,7 @@ class PostController extends Controller
     {
 
         $categories = Category::all();
+        $tags = Tag::all();
     	// $postsArr = [
 
     	// 	[
@@ -62,7 +64,7 @@ class PostController extends Controller
     	// }
     	// // Post::create();
     	// dd('created');
-    	return view('post.create', compact('categories'));
+    	return view('post.create', compact('categories', 'tags'));
     }
 
     public function store()
@@ -71,10 +73,20 @@ class PostController extends Controller
     		'title' => 'string',
     		'content' => 'string',
     		'image' => 'string',
-            'category_id' => ''
+            'category_id' => '',
+            'tags' => ''
     		]);
+        $tags = $data['tags'];
+        unset($data['tags']);
         //dd($data);
-    	Post::create($data);
+    	$post = Post::create($data);
+        // foreach ($tags as $tag) {
+        //     PostTag::firstOrCreate([
+        //         'tag_id' => $tag,
+        //         'post_id' => $post->id
+        //     ]);
+        // }
+        $post->tags()->attach($tags);
     	return redirect()->route('post.index');
     }
 
