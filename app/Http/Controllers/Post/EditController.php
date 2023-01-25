@@ -9,7 +9,7 @@ use App\Tag;
 // use App\PostTag;
 use App\Controller;
 
-class EditController extends Controller
+class EditController extends BaseController
 {
     public function __invoke(Post $post)
     {

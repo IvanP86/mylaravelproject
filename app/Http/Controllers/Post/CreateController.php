@@ -9,7 +9,7 @@ use App\Tag;
 // use App\PostTag;
 use App\Controller;
 
-class CreateController extends Controller
+class CreateController extends BaseController
 {
     public function __invoke()
     {

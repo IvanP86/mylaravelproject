@@ -9,7 +9,7 @@ use App\Post;
 // use App\PostTag;
 use App\Controller;
 
-class DestroyController extends Controller
+class DestroyController extends BaseController
 {
     public function __invoke(Post $post)
     {

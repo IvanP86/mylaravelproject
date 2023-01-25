@@ -7,17 +7,20 @@ use App\Post;
 use App\Category;
 use App\Tag;
 // use App\PostTag;
-use App\Controller;
+use App\Http\Controllers\Controller;
+// use App\Http\Requests\Post;
+// use App\Http\Requests\Post;
 
-class UpdateController extends Controller
+class UpdateController extends BaseController
 {
-    public function __invoke(UpdateRequest $request, Post $post)
+    public function __invoke(\App\Http\Requests\Post\UpdateRequest $request, Post $post)
     {
         $data = $request->validated();
-        $tags = $data['tags'];
-        unset($data['tags']);
-        $post->update($data);
-        $post->tags()->sync($tags);
+        $this->service->update($post, $data);
+        // $tags = $data['tags'];
+        // unset($data['tags']);
+        // $post->update($data);
+        // $post->tags()->sync($tags);
         return redirect()->route('post.show', $post->id);
     }
 

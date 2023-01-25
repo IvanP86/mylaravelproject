@@ -9,15 +9,17 @@ use App\Post;
 // use App\PostTag;
 use App\Controller;
 
-class StoreController extends Controller
+class StoreController extends BaseController
 {
-    public function __invoke(StoreRequest $request)
+    public function __invoke(\App\Http\Requests\Post\StoreRequest $request)
     {
     	$data = $request->validated();
-        $tags = $data['tags'];
-        unset($data['tags']);
-    	$post = Post::create($data);
-        $post->tags()->attach($tags);
+        
+        $this->service->store($data);
+     //    $tags = $data['tags'];
+     //    unset($data['tags']);
+    	// $post = Post::create($data);
+     //    $post->tags()->attach($tags);
     	return redirect()->route('post.index');
     }
 
