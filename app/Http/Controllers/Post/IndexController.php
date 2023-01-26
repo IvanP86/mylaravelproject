@@ -13,7 +13,8 @@ class IndexController extends BaseController
 {
     public function __invoke()
     {
-        $posts = Post::all();
+        // $posts = Post::all();
+        $posts = Post::paginate(10);
         // $category = Category::find(1);
         // $post = Post::find(5);
         // $tag = Tag::find(1);
