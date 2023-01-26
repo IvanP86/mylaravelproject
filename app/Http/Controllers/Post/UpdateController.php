@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Post;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Post\UpdateRequest;
 use App\Post;
 use App\Category;
 use App\Tag;
@@ -13,7 +14,7 @@ use App\Http\Controllers\Controller;
 
 class UpdateController extends BaseController
 {
-    public function __invoke(\App\Http\Requests\Post\UpdateRequest $request, Post $post)
+    public function __invoke(UpdateRequest $request, Post $post)
     {
         $data = $request->validated();
         $this->service->update($post, $data);

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    // use HasFactory;
 	use SoftDeletes;
     protected $table = 'posts';
     protected $guarded = [];
